@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib import messages
+from django.utils import timezone
+
 class Event(models.Model):
     STATUS_CHOICES = (
         ('pending', 'Pending'),
@@ -18,4 +20,6 @@ class Event(models.Model):
     image = models.ImageField(upload_to='event_images', blank=True, null=True)
     organizer = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now)
     tickets_available = models.IntegerField(default=100)  # Replace 100 with the initial number of tickets available

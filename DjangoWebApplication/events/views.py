@@ -22,45 +22,47 @@ class EventDashboardView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user.is_superuser
 
 
-def organizer_check(user):
-    return user.profile.type_user == 'organizer'
+from django.contrib.auth.decorators import user_passes_test
+from django.views.generic import ListView
+from .models import Event
 
-class OrganizerEventListView(user_passes_test(organizer_check, login_url='login'), ListView):
+def organizer_check(user):
+    return user.is_authenticated and user.is_organizer
+
+@user_passes_test(organizer_check, login_url='login')
+class OrganizerEventListView(ListView):
     model = Event
     template_name = 'events/organizer_event_list.html'
 
     def get_queryset(self):
         return Event.objects.filter(organizer=self.request.user)
 
-    @method_decorator(user_passes_test(organizer_check, login_url='login'))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
-
-class EventCreateView(user_passes_test(organizer_check, login_url='login'), CreateView):
+@user_passes_test(organizer_check, login_url='login')
+class EventCreateView(CreateView):
     model = Event
     template_name = 'events/event_form.html'
-    fields = ['title', 'description', 'location', 'date_time', 'ticket_price', 'image']
+    fields = ['title', 'description', 'location', 'date_time', 'ticket_price', 'image', 'tickets_available']
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
         return super().form_valid(form)
 
-class EventUpdateView(user_passes_test(organizer_check, login_url='login'), UpdateView):
+@user_passes_test(organizer_check, login_url='login')
+class EventUpdateView(UpdateView):
     model = Event
     template_name = 'events/event_form.html'
-    fields = ['title', 'description', 'location', 'date_time', 'ticket_price', 'image']
+    fields = ['title', 'description', 'location', 'date_time', 'ticket_price', 'image', 'tickets_available']
 
-    def get_queryset(self):
-        return Event.objects.filter(organizer=self.request.user)
+    def form_valid(self, form):
+        form.instance.organizer = self.request.user
+        return super().form_valid(form)
 
-class EventDeleteView(user_passes_test(organizer_check, login_url='login'), DeleteView):
+@user_passes_test(organizer_check, login_url='login')
+class EventDeleteView(DeleteView):
     model = Event
     template_name = 'events/event_confirm_delete.html'
     success_url = reverse_lazy('organizer_event_list')
-
-    def get_queryset(self):
-        return Event.objects.filter(organizer=self.request.user)
 
 from django.views.generic import ListView
 from .models import Event
