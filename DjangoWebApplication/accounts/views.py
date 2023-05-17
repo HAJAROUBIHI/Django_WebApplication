@@ -25,6 +25,8 @@ def register(request):
             account = account_form.save(commit=False)  # changed from profile to account
             account.user = user
             account.save()
+            print("Register view called")  # Add this line to print a message
+        
             messages.success(request, f'Your account has been created! You are now able to log in')
             return redirect('login')
         else:
