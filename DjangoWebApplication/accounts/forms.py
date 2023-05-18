@@ -11,15 +11,21 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 class AccountRegisterForm(forms.ModelForm):
-    TYPES = (
-        ('user', 'User'),
+    USER_TYPES = (
         ('organizer', 'Organizer'),
+        ('simple_user', 'Simple User'),
     )
-    user_type = forms.ChoiceField(choices=TYPES)
+    type_user = forms.ChoiceField(choices=USER_TYPES, required=True)
+    date_of_birth = forms.DateField(required=False)  # Make the date_of_birth field optional
+    profile_pic = forms.ImageField(required=False)  # Make the profile_pic field optional
+
 
     class Meta:
         model = Account
-        fields = ['user_type', 'full_name', 'phone_number', 'date_of_birth', 'profile_pic', 'address', 'bio']
+        fields = ['type_user', 'full_name', 'phone_number', 'date_of_birth', 'profile_pic', 'address', 'bio']
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),  # Add placeholder for easier date input
+        }
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()

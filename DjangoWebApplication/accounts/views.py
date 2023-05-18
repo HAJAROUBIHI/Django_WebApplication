@@ -17,15 +17,21 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 
 def register(request):
+    #print("Register view called")
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST)
         account_form = AccountRegisterForm(request.POST)  # changed from profile_form to account_form
         if user_form.is_valid() and account_form.is_valid():
+            print("User form is valid:", user_form.is_valid())
+            print("Account form is valid:", account_form.is_valid())
             user = user_form.save()
             account = account_form.save(commit=False)  # changed from profile to account
             account.user = user
             account.save()
-            print("Register view called")  # Add this line to print a message
+            account = account_form.save(commit=False)
+            print("User saved:", user)
+            print("Account saved (commit=False):", account)
+            #print("Register view called")  # Add this line to print a message
         
             messages.success(request, f'Your account has been created! You are now able to log in')
             return redirect('login')
@@ -40,11 +46,23 @@ def register(request):
 from django.contrib.auth.decorators import user_passes_test
 
 
+from django.contrib.auth.decorators import login_required
+
 def user_check(user):
-    return Account.objects.get(user=user).user_type == 'user'  # changed from Profile to Account
+    return user.account.type_user == 'simple_user'
 
 def organizer_check(user):
-    return Account.objects.get(user=user).user_type == 'organizer'  # changed from Profile to Account
+    return user.account.type_user == 'organizer'
+
+@login_required(login_url='login')
+def user_profile(request):
+    account = Account.objects.get(user=request.user)
+    return render(request, 'accounts/user_profile.html', {'account': account})
+
+@login_required(login_url='login')
+def organizer_profile(request):
+    account = Account.objects.get(user=request.user)
+    return render(request, 'accounts/organizer_profile.html', {'account': account})
 
 def login_view(request):
     if request.method == 'POST':
@@ -60,18 +78,7 @@ def login_view(request):
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('login')
-    else:
-        return render(request, 'accounts/login.html')
-
-@user_passes_test(user_check, login_url='login')
-def user_profile(request):
-    account = Account.objects.get(user=request.user)  # changed from profile to account
-    return render(request, 'accounts/user_profile.html', {'account': account})  # changed from 'profile' to 'account'
-
-@user_passes_test(organizer_check, login_url='login')
-def organizer_profile(request):
-    account = Account.objects.get(user=request.user)  # changed from profile to account
-    return render(request, 'accounts/organizer_profile.html', {'account': account})  # changed from 'profile' to 'account'
+    return render(request, 'accounts/login.html')
 
 
 def logout_view(request):
@@ -89,8 +96,12 @@ def profile_update(request):
         if user_form.is_valid() and account_form.is_valid():
             user_form.save()
             account_form.save()
-            messages.success(request, f'Your account has been updated!')
-            return redirect('profile')
+            messages.success(request, 'Your account has been updated!')
+            
+            if organizer_check(request.user):
+                return redirect('organizer_profile')
+            else:
+                return redirect('user_profile')
     else:
         user_form = UserUpdateForm(instance=request.user)
         account_form = AccountUpdateForm(instance=request.user.account)
@@ -101,6 +112,7 @@ def profile_update(request):
     }
 
     return render(request, 'accounts/profile_update.html', context)
+
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView

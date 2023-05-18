@@ -1,15 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+ <title>Register</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+ <style>
+ body {
+ background-color: #f5f5f5;
+ }
+ .form-container {
+ background-color: white;
+ padding: 30px;
+ border-radius: 10px;
+ box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+ }
+ .form-group label {
+ display: inline-block;
+ width: 120px;
+ font-weight: bold;
+ }
+ .form-control {
+ margin-bottom: 15px;
+ }
+ </style>
 </head>
 <body>
-    <h1>Register</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ account_form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+ <div class="container">
+ <div class="row">
+ <div class="col-md-6 offset-md-3">
+ <div class="form-container my-5">
+ <h1 class="text-center mb-4">Register</h1>
+ <form method="POST">
+ {% csrf_token %}
+ {% for field in user_form %}
+ <div class="form-group">
+ <label for="{{ field.auto_id }}">{{ field.label }}</label>
+ {{ field }}
+ </div>
+ {% endfor %}
+ {% for field in account_form %}
+ <div class="form-group">
+ <label for="{{ field.auto_id }}">{{ field.label }}</label>
+ {{ field }}
+ </div>
+ {% endfor %}
+ <button type="submit" class="btn btn-primary btn-block">Register</button>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
 </body>
 </html>

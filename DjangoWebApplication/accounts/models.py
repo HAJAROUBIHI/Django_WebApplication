@@ -16,5 +16,7 @@ class Account(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
 
-
+    def save(self, *args, **kwargs):
+        print("Saving Account model")
+        super().save(*args, **kwargs)
 

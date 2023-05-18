@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update Profile</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center my-5">Update Profile</h1>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          {{ account_form.as_p }}
+          <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
