@@ -12,9 +12,10 @@ urlpatterns = [
     #path('events/<int:event_id>/update/', views.update_event, name='update_event'),
     #path('events/<int:event_id>/delete/', views.delete_event, name='delete_event'),
     path('dashboard/', EventDashboardView.as_view(), name='event-dashboard'),
-    path('organizer/events/', views.OrganizerEventListView, name='organizer_event_list'),
-    path('organizer/events/new/', views.EventCreateView, name='event_new'),
-    path('organizer/events/<int:pk>/edit/', views.EventUpdateView, name='event_edit'),
-    path('organizer/events/<int:pk>/delete/', views.EventDeleteView, name='event_delete'),
+    
+    path('organizer/events/', OrganizerEventListView.as_view(), name='organizer_event_list'),
+    path('organizer/events/new/', EventCreateView.as_view(), name='event_create'),
+    path('organizer/events/<int:pk>/update/', EventUpdateView.as_view(), name='event_update'),
+    path('organizer/events/<int:pk>/delete/', EventDeleteView.as_view(), name='event_delete'),
     path('user_events/', UserEventListView.as_view(), name='user-events'),
 ]

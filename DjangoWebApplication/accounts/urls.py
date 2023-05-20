@@ -2,6 +2,7 @@ from django.urls import path
 from . import views  # Import your views
 from django.contrib.auth import views as auth_views
 from .views import AccountCreateView, AccountUpdateView, AccountDeleteView,AccountListView, AccountDetailView
+from events.views import EventListView
 
 
 urlpatterns = [
@@ -20,4 +21,10 @@ urlpatterns = [
     path('account/<int:pk>/delete/', AccountDeleteView.as_view(), name='account-delete'),
     path('accounts/', AccountListView.as_view(), name='account-list'),
     path('account/<int:pk>/', AccountDetailView.as_view(), name='account-detail'),
+    path('principal/', views.principal_page, name='principal_page'),
+    path('events/', EventListView.as_view(), name='event_list'),
+    path('orders/', EventListView.as_view(), name='event_list'),
+    path('orders/user', views.user_orders, name='user_orders'),
+    path('dashboard/user/', views.dashboard_user, name='dashboard_user'),
 ]
+

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <title>My Project</title>
+  <!-- Link Bootstrap CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- Add custom CSS -->
+  <style>
+    body {
+      background-color: #f5f5f5;
+    }
+    .form-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group label {
+      display: inline-block;
+      width: 120px;
+      font-weight: bold;
+    }
+    .form-control {
+      margin-bottom: 15px;
+    }
+    /* Add some colors and fonts */
+    .navbar-brand {
+      color: white;
+      font-family: 'Pacifico', cursive;
+    }
+    h3 {
+      color: #007bff;
+      font-family: 'Roboto', sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .btn-warning {
+      background-color: #ffc107;
+      border-color: #ffc107;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+    /* Add a footer */
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    /* Add a black navbar with a logo and a list of links */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #343a40; /* Change the background color to black */
+    }
+    .navbar ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar li {
+      display: inline-block; /* Change the display to inline-block */
+    }
+    .navbar li a {
+      display: block; /* Change the display to block */
+      color: white; /* Change the text color to white */
+      text-decoration: none; /* Remove the underline */
+      padding: 15px 20px; /* Add some padding */
+    }
+    .navbar li a:hover {
+      background-color: #007bff; /* Change the background color on hover */
+    }
+    
+  </style>
+</head>
+<body>
+  <!-- Replace your navbar with this one -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="#">
+      <img src="{% static 'DjangoWebApplication/img/ticketss.png' %}" alt="Ticket logo" width="55" height="24" class="d-inline-block align-text-top">
+      Sell Tickets
+    </a>
+    
+     <!-- Add a list of links -->
+     <ul>
+       <li><a class="btn btn-outline-light" href="{% url 'organizer_event_list' %}">Home</a></li>
+       <li><a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a></li>
+     </ul>
+  </nav>
+  {% block content %}
+  <!-- Add Event Form -->
+  <!-- Add Event Form -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="form-container my-5">
+          <h3 style="text-align: center;">Add Event</h3>
+          <hr>
+          <br>
+          <form id="add-event-form" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.auto_id }}">{{ field.label }}</label>
+              {{ field }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-block">Add Event</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- JavaScript code to handle form submission -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // Handle form submission
+      $('#add-event-form').on('submit', function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+          url: '/events/organizer/events/',
+          method: 'POST',
+          data: formData,
+          success: function(data) {
+            //console.log(data);
+            // Update the event list
+            var newRow = '<tr data-event-id="' + data.id + '">' +
+              '<td>' + data.title + '</td>' +
+              '<td>' + data.description + '</td>' +
+              '<td>' + data.location + '</td>' +
+              '<td>' + data.date_time + '</td>' +
+              '<td>' + data.ticket_price + '</td>' +
+              '<td>' + data.tickets_available + '</td>' +
+              '<td>' +
+              '<button class="btn btn-warning update-button">Update</button> ' +
+              '<a href="/events/' + data.id + '/delete/" class="btn btn-danger">Delete</a>' +
+              '</td>' +
+              '</tr>';
+            $('table tbody').append(newRow);
+            // Reset the form fields
+            form[0].reset();
+          }
+        });
+      });
+    });
+  </script>
+  <!-- List of Events -->
+  <!-- List of Events -->
+  <h3 style="text-align: center;">All My Events</h3>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Date and Time</th>
+        <th>Ticket Price</th>
+        <th>Tickets Available</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events %}
+      <tr data-event-id="{{ event.pk }}">
+        <td>{{ event.title }}</td>
+        <td>{{ event.description }}</td>
+        <td>{{ event.location }}</td>
+        <td>{{ event.date_time }}</td>
+        <td>{{ event.ticket_price }}</td>
+        <td>{{ event.tickets_available }}</td>
+        <td> <!-- Update and Delete Buttons --> <!-- Change the href attribute of the update button --> 
+          <a href="{% url 'event_update' event.pk %}" class="btn btn-warning">Update</a> 
+          <a href="{% url 'event_delete' event.pk %}" class="btn btn-danger">Delete</a> 
+        </td> 
+      </tr> 
+     {% endfor %} 
+   </tbody> 
+ </table> 
+{% endblock %} 
+<footer class="footer"> 
+<!-- Your footer code here --> 
+<p>© My Project | All rights reserved.</p> 
+</footer> 
+</body> 
+</html>
+

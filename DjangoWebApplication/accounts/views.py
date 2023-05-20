@@ -14,7 +14,7 @@ from django.contrib import messages
 from .forms import UserRegisterForm, AccountRegisterForm  
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from events.models import Event
 
 def register(request):
     #print("Register view called")
@@ -47,6 +47,19 @@ from django.contrib.auth.decorators import user_passes_test
 
 
 from django.contrib.auth.decorators import login_required
+
+def dashboard_user(request):
+    return render(request, 'accounts/dashboard_user.html')
+
+def admin(request):
+    return render(request, 'accounts/admin.html')
+
+def user_orders(request):
+    return render(request, 'accounts/user_orders.html')
+
+def principal_page(request):
+    return render(request, 'accounts/principal_page.html')
+
 
 def user_check(user):
     return user.account.type_user == 'simple_user'
@@ -81,9 +94,17 @@ def login_view(request):
     return render(request, 'accounts/login.html')
 
 
+def organizer_profile_view(request):
+  context = {
+    'account': Account.objects.get(user=request.user),
+    'events': Event.objects.filter(organizer=request.user)
+  }
+  return render(request, 'accounts/organizer_profile.html', context)
+
+
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
 
     
 
