@@ -99,7 +99,7 @@
  <div class="container">
  {% block content %}
  <h2>Update Event</h2>
- <form method="POST">
+ <form method="POST" enctype="multipart/form-data">
  {% csrf_token %}
  {{ form.as_p }}
  <button class="btn btn-primary" type="submit">Update Event</button>

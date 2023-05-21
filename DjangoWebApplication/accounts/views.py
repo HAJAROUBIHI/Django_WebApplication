@@ -15,47 +15,69 @@ from .forms import UserRegisterForm, AccountRegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from events.models import Event
+from orders.models import Order
+from django.utils import timezone
+from tickets.models import Ticket
+
+
+def dashboard_user(request):
+    if request.method == 'POST':
+        event_id = request.POST.get('event_id')
+        # Retrieve the event object
+        event = Event.objects.get(pk=event_id)
+        # Create the order
+        order = Order.objects.create(user=request.user, event=event, total_amount=event.ticket_price, purchase_date=timezone.now())
+        ticket = Ticket.objects.create(event=event, buyer=request.user, purchase_date=timezone.now())
+        # Add tickets to the order (if applicable)
+        # Replace the following line with your logic to add the appropriate tickets to the order
+        #order.tickets.add(event)
+        # Update the payment status (if applicable)
+        order.payment_status = 'complete'
+        # Save the order
+        order.save()
+        ticket.save()
+        return redirect('dashboard_user')
+    
+    events = Event.objects.filter(status='approved')
+    return render(request, 'accounts/dashboard_user.html', {'events': events})
+
+
+def user_orders(request):
+    orders = Order.objects.filter(user=request.user)
+    print(f"Orders: {orders}")  # Check the orders queryset in the console  
+    context = {           
+            'orders': orders
+        }
+    return render(request, 'accounts/user_orders.html', context)
+
 
 def register(request):
-    #print("Register view called")
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST)
-        account_form = AccountRegisterForm(request.POST)  # changed from profile_form to account_form
+        account_form = AccountRegisterForm(request.POST, request.FILES)
         if user_form.is_valid() and account_form.is_valid():
-            print("User form is valid:", user_form.is_valid())
-            print("Account form is valid:", account_form.is_valid())
             user = user_form.save()
-            account = account_form.save(commit=False)  # changed from profile to account
+            account = account_form.save(commit=False)
             account.user = user
             account.save()
-            account = account_form.save(commit=False)
-            print("User saved:", user)
-            print("Account saved (commit=False):", account)
-            #print("Register view called")  # Add this line to print a message
-        
-            messages.success(request, f'Your account has been created! You are now able to log in')
+            messages.success(request, 'Your account has been created! You are now able to log in')
             return redirect('login')
         else:
-            messages.error(request, f'Please correct the error below.')
+            messages.error(request, 'Please correct the error below.')
     else:
         user_form = UserRegisterForm()
-        account_form = AccountRegisterForm()  # changed from profile_form to account_form
-    return render(request, 'accounts/register.html', {'user_form': user_form, 'account_form': account_form})  # changed from 'profile_form' to 'account_form'
-
+        account_form = AccountRegisterForm()
+    return render(request, 'accounts/register.html', {'user_form': user_form, 'account_form': account_form})
 
 from django.contrib.auth.decorators import user_passes_test
 
 
 from django.contrib.auth.decorators import login_required
 
-def dashboard_user(request):
-    return render(request, 'accounts/dashboard_user.html')
 
 def admin(request):
     return render(request, 'accounts/admin.html')
 
-def user_orders(request):
-    return render(request, 'accounts/user_orders.html')
 
 def principal_page(request):
     return render(request, 'accounts/principal_page.html')
@@ -66,6 +88,7 @@ def user_check(user):
 
 def organizer_check(user):
     return user.account.type_user == 'organizer'
+
 
 @login_required(login_url='login')
 def user_profile(request):
@@ -94,19 +117,29 @@ def login_view(request):
     return render(request, 'accounts/login.html')
 
 
-def organizer_profile_view(request):
-  context = {
-    'account': Account.objects.get(user=request.user),
-    'events': Event.objects.filter(organizer=request.user)
-  }
-  return render(request, 'accounts/organizer_profile.html', context)
-
-
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-    
+
+from .models import Account  
+from events.models import Event
+
+def organizer_profile_view(request):
+    if request.user.is_authenticated:
+        print(f"Authenticated User: {request.user.username}")  # print username of authenticated user
+        events = Event.objects.filter(organizer=request.user)
+        print(f"Events: {events}")  # print queryset of events
+        context = {
+            'account': Account.objects.get(user=request.user),
+            'events': events
+        }
+        return render(request, 'accounts/organizer_profile.html', context)
+    else:
+        print("User is not authenticated.")  # print a message if user is not authenticated
+        return redirect('login')  # replace 'login' with the name of your login url
+
+
 
 @login_required
 def profile_update(request):

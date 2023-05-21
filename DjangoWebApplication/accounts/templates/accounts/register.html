@@ -29,20 +29,32 @@
  <div class="col-md-6 offset-md-3">
  <div class="form-container my-5">
  <h1 class="text-center mb-4">Register</h1>
- <form method="POST">
+ <form method="POST" enctype="multipart/form-data">
  {% csrf_token %}
- {% for field in user_form %}
- <div class="form-group">
- <label for="{{ field.auto_id }}">{{ field.label }}</label>
- {{ field }}
- </div>
- {% endfor %}
- {% for field in account_form %}
- <div class="form-group">
- <label for="{{ field.auto_id }}">{{ field.label }}</label>
- {{ field }}
- </div>
- {% endfor %}
+ <!-- Rest of the HTML -->
+{% for field in user_form %}
+<div class="form-group">
+<label for="{{ field.auto_id }}">{{ field.label }}</label>
+{{ field }}
+{% if field.errors %}
+  <div class="alert alert-danger">
+    {{ field.errors }}
+  </div>
+{% endif %}
+</div>
+{% endfor %}
+{% for field in account_form %}
+<div class="form-group">
+<label for="{{ field.auto_id }}">{{ field.label }}</label>
+{{ field }}
+{% if field.errors %}
+  <div class="alert alert-danger">
+    {{ field.errors }}
+  </div>
+{% endif %}
+</div>
+{% endfor %}
+<!-- Rest of the HTML -->
  <button type="submit" class="btn btn-primary btn-block">Register</button>
  </form>
  </div>

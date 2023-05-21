@@ -61,7 +61,17 @@
   <div class="col-md-4 mb-4">
     <div class="card h-100 shadow-sm">
       <!-- Display the event image as the card header -->
+      {% if event.image %}
+      <!-- Display the event image as the card header -->
       <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.name }}">
+    {% else %}
+      <!-- Placeholder image when no image is available -->
+      <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
+    {% endif %}
+
+
+
+      
       <!-- Display the event details as the card body -->
       <div class="card-body">
         <!-- Display the event name as the card title -->
@@ -77,14 +87,21 @@
       <div class="card-footer">
         <div class="d-flex align-items-center">
           <!-- Display the organizer avatar as a small circle image -->
+          {% if event.organizer.avatar %}
           <img src="{{ event.organizer.avatar.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ event.organizer.name }}">
           <!-- Display the organizer name as a small text -->
+          {% else %}
+          <!-- Placeholder image when no image is available -->
+          <img src="https://via.placeholder.com/32?text=No+Avatar" class="rounded-circle mr-2" width="32" height="32" alt="No Avatar">
+        {% endif %}
           <small class="text-muted">{{ event.organizer.name }}</small>
         </div>
         <div class="text-right">
-          <a href="#" class="btn btn-success">
-            Buy Ticket
-        </a>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="event_id" value="{{ event.id }}">
+            <button type="submit" class="btn btn-success">Buy Ticket</button>
+          </form>
       </div>
       </div>
     </div>

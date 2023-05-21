@@ -17,3 +17,5 @@ class Order(models.Model):
     purchase_date = models.DateTimeField()
     payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default='pending')
 
+    def __str__(self):
+        return f"Order {self.pk}"

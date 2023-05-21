@@ -24,20 +24,46 @@
     .form-control {
       margin-bottom: 15px;
     }
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #343a40; /* Change the background color to black */
+    }
+    .navbar ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar li {
+      display: inline-block; /* Change the display to inline-block */
+    }
+    .navbar li a {
+      display: block; /* Change the display to block */
+      color: white; /* Change the text color to white */
+      text-decoration: none; /* Remove the underline */
+      padding: 15px 20px; /* Add some padding */
+    }
+    .navbar li a:hover {
+      background-color: #007bff; /* Change the background color on hover */
+    }
+ 
+
   </style>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="{% static 'DjangoWebApplication/img/ticketss.png' %}" alt="Ticket logo" width="65" height="39" class="d-inline-block align-text-top">
-            Sell Tickets
-          </a>
-          <div class="d-flex">
-            <a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a>
-          </div>
-        </div>
-    </nav>
+  <nav class="navbar">
+    <a class="navbar-brand" href="#">
+      <img src="{% static 'DjangoWebApplication/img/ticketss.png' %}" alt="Ticket logo" width="55" height="24" class="d-inline-block align-text-top">
+      Sell Tickets
+    </a>
+    
+     <!-- Add a list of links -->
+     <ul>
+       <li><a class="btn btn-outline-light" href="{% url 'organizer_profile' %}">Home</a></li>
+       <li><a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a></li>
+     </ul>
+  </nav>
   <div class="container">
     <div class="row">
       <div class="col-md-6 offset-md-3">

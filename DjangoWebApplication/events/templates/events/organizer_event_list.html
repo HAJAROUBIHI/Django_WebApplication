@@ -92,7 +92,7 @@
     
      <!-- Add a list of links -->
      <ul>
-       <li><a class="btn btn-outline-light" href="{% url 'organizer_event_list' %}">Home</a></li>
+       <li><a class="btn btn-outline-light" href="{% url 'organizer_profile' %}">Home</a></li>
        <li><a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a></li>
      </ul>
   </nav>
@@ -106,7 +106,7 @@
           <h3 style="text-align: center;">Add Event</h3>
           <hr>
           <br>
-          <form id="add-event-form" method="post">
+          <form id="add-event-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
             <div class="form-group">
@@ -123,37 +123,41 @@
   <!-- JavaScript code to handle form submission -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function() {
-      // Handle form submission
-      $('#add-event-form').on('submit', function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-          url: '/events/organizer/events/',
-          method: 'POST',
-          data: formData,
-          success: function(data) {
-            //console.log(data);
-            // Update the event list
-            var newRow = '<tr data-event-id="' + data.id + '">' +
-              '<td>' + data.title + '</td>' +
-              '<td>' + data.description + '</td>' +
-              '<td>' + data.location + '</td>' +
-              '<td>' + data.date_time + '</td>' +
-              '<td>' + data.ticket_price + '</td>' +
-              '<td>' + data.tickets_available + '</td>' +
-              '<td>' +
-              '<button class="btn btn-warning update-button">Update</button> ' +
-              '<a href="/events/' + data.id + '/delete/" class="btn btn-danger">Delete</a>' +
-              '</td>' +
-              '</tr>';
-            $('table tbody').append(newRow);
-            // Reset the form fields
-            form[0].reset();
-          }
-        });
-      });
+$(document).ready(function() {
+  // Handle form submission
+  $('#add-event-form').on('submit', function(event) {
+    event.preventDefault();
+    var formData = new FormData(this);  
+    $.ajax({
+      url: '/events/organizer/events/',
+      method: 'POST',
+      data: formData,
+      processData: false,  
+      contentType: false,  
+      success: function(data) {
+        // Update the event list
+        var newRow = '<tr data-event-id="' + data.id + '">' +
+          '<td>' + data.title + '</td>' +
+          '<td>' + data.description + '</td>' +
+          '<td>' + data.location + '</td>' +
+          '<td>' + data.date_time + '</td>' +
+          '<td>' + data.ticket_price + '</td>' +
+          '<td>' + data.tickets_available + '</td>' +
+          '<td>' +
+          '<button class="btn btn-warning update-button">Update</button> ' +
+          '<a href="/events/' + data.id + '/delete/" class="btn btn-danger">Delete</a>' +
+          '</td>' +
+          '</tr>';
+        $('table tbody').append(newRow);
+        // Reset the form fields
+        $('#add-event-form').find('input').val(''); // Clear all input fields
+        $('#add-event-form').find('textarea').val(''); // Clear all textarea fields
+        $('#add-event-form').find('select').prop('selectedIndex',0); // Reset all select fields
+      }
     });
+  });
+});
+
   </script>
   <!-- List of Events -->
   <!-- List of Events -->

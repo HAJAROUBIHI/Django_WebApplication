@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),  # Changed from 'views.login' to 'views.login_view'
     path('logout/', views.logout_view, name='logout'),  # Changed from 'views.logout' to 'views.logout_view'
     path('profile/user/', views.user_profile, name='user_profile'),  # New path for user profile
-    path('profile/organizer/', views.organizer_profile, name='organizer_profile'),  # New path for organizer profile
+    path('profile/organizer/', views.organizer_profile_view, name='organizer_profile'),  # New path for organizer profile
     path('profile/update/', views.profile_update, name='profile_update'),  # Add this line
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='accounts/password_reset.html'), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='accounts/password_reset_done.html'), name='password_reset_done'),

@@ -23,3 +23,6 @@ class Event(models.Model):
     start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(default=timezone.now)
     tickets_available = models.IntegerField(default=100)  # Replace 100 with the initial number of tickets available
+
+    def __str__(self):
+        return self.title

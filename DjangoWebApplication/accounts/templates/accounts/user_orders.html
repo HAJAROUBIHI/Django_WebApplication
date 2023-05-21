@@ -77,93 +77,81 @@
 <!-- Organizer Events -->
 <div class="container mt-4 text-center">
 
-<!-- List of Events -->
-<div class="row">
-{% if events %}
-{% for event in events %}
-  <!-- Display each event as a card in a column -->
-  <div class="col-md-4 mb-4">
-    <div class="card h-100 shadow-sm">
-      <!-- Display the event image as the card header -->
-      <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.name }}">
-      <!-- Display the event details as the card body -->
-      <div class="card-body">
-        <!-- Display the event name as the card title -->
-        <h5 class="card-title">{{ event.name }}</h5>
-        <!-- Display the event date and time as the card subtitle -->
-        <p class="card-subtitle text-muted">{{ event.date }} {{ event.time }}</p>
-        <!-- Display the event description as the card text -->
-        <p class="card-text">{{ event.description }}</p>
-        <!-- Display the event link as the card button -->
-        <a href="{{ event.link }}" class="btn btn-outline-primary">View Event</a>
-      </div>
-      <!-- Display the organizer name and avatar as the card footer -->
-      <div class="card-footer">
-        <div class="d-flex align-items-center">
-          <!-- Display the organizer avatar as a small circle image -->
-          <img src="{{ event.organizer.avatar.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ event.organizer.name }}">
-          <!-- Display the organizer name as a small text -->
-          <small class="text-muted">{{ event.organizer.name }}</small>
-        </div>
-        <div class="text-right">
-            <a href="#" class="btn btn-danger">
-              Remove Ticket
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-{% endfor %}
-{% else %}
-<!-- Display empty grids -->
-{% for i in "1234" %}
-  {% if i == "1" %}
-    <!-- Display create new event button as the first card in a column -->
-    
-  {% else %}
-    <!-- Display empty cards with placeholder images and texts -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <!-- Empty card with a placeholder image and text -->
-        <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
-        <div class="card-body">
-          <h5 class="card-title">No Event</h5>
-          <p class="card-subtitle text-muted">No Date No Time</p>
-          <p class="card-text">No Description</p>
-          <a href="#" class="btn btn-outline-primary disabled">View Event</a>
-        </div>
-        <div class="card-footer">
-          <div class="d-flex align-items-center">
-            <!-- Empty avatar with a placeholder image -->
-            <img src="https://via.placeholder.com/32?text=No+Avatar" class="rounded-circle mr-2" width="32" height="32" alt="No Avatar">
-            <!-- Empty name with a placeholder text -->
-            <small class="text-muted">No Organizer</small>
+  <!-- List of Events -->
+  <div class="row">
+    {% if orders %}
+      {% for order in orders %}
+        <!-- Display each order's associated event as a card in a column -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <!-- Display the event image as the card header -->
+            <img src="{{ order.event.image.url }}" class="card-img-top" alt="{{ order.event.title }}">
+            <!-- Display the event details as the card body -->
+            <div class="card-body">
+              <!-- Display the event name as the card title -->
+              <h5 class="card-title">{{ order.event.title }}</h5>
+              <!-- Display the event date and time as the card subtitle -->
+              <p class="card-subtitle text-muted">{{ order.event.date_time }}</p>
+              <!-- Display the event description as the card text -->
+              <p class="card-text">{{ order.event.description }}</p>
+              <!-- Display the event link as the card button -->
+              <a href="{{ order.event.link }}" class="btn btn-outline-primary">View Event</a>
+            </div>
+            <!-- Display the organizer name and avatar as the card footer -->
+            <div class="card-footer">
+              <div class="d-flex align-items-center">
+                <!-- Display the organizer avatar as a small circle image -->
+                <img src="{{ order.event.organizer.avatar.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ order.event.organizer.name }}">
+                <!-- Display the organizer name as a small text -->
+                <small class="text-muted">{{ order.event.organizer.username }}</small>
+              </div>
+              <div class="text-right">
+                <a href="#" class="btn btn-danger">
+                  Remove Ticket
+                </a>
+              </div>
+            </div>
           </div>
-          <div class="text-right">
-          <a href="#" class="btn btn-danger">
-            Remove Ticket
-        </a>
-      </div>
         </div>
-      </div>
-    </div>
-  {% endif %}
-{% endfor %}
-{% endif %}
+      {% endfor %}
+    {% else %}
+      <!-- Display empty grids -->
+      {% for i in "1234" %}
+        {% if i == "1" %}
+          <!-- Display create new event button as the first card in a column -->
+          <!-- Add your code for the create new event card here -->
+        {% else %}
+          <!-- Display empty cards with placeholder images and texts -->
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <!-- Empty card with a placeholder image and text -->
+              <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
+              <div class="card-body">
+                <h5 class="card-title">No Event</h5>
+                <p class="card-subtitle text-muted">No Date No Time</p>
+                <p class="card-text">No Description</p>
+                <a href="#" class="btn btn-outline-primary disabled">View Event</a>
+              </div>
+              <div class="card-footer">
+                <div class="d-flex align-items-center">
+                  <!-- Empty avatar with a placeholder image -->
+                  <img src="https://via.placeholder.com/32?text=No+Avatar" class="rounded-circle mr-2" width="32" height="32" alt="No Avatar">
+                  <!-- Empty name with a placeholder text -->
+                  <small class="text-muted">No Organizer</small>
+                </div>
+                <div class="text-right">
+                  <a href="#" class="btn btn-danger">
+                    Remove Ticket
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
 </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

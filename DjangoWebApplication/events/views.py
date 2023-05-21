@@ -8,6 +8,8 @@ from .models import Event
 from django.views.generic import ListView
 from django.db.models import Q
 from django.utils.decorators import method_decorator
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 
 
@@ -44,6 +46,7 @@ class OrganizerEventListView(FormMixin, ListView):
     model = Event
     template_name = 'events/organizer_event_list.html'
     form_class = EventForm
+    success_url = '/events/organizer/events/'
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -75,8 +78,18 @@ class OrganizerEventListView(FormMixin, ListView):
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
-        self.object = form.save()
+        event = form.save(commit=False)
+
+        # Handle the image file separately
+        image_file = self.request.FILES.get('image')
+        if image_file:
+            file_name = default_storage.save('event_images/' + image_file.name, ContentFile(image_file.read()))
+            event.image = file_name
+
+        event.save()
+        self.object = event
         return super().form_valid(form)
+      
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -166,6 +179,16 @@ class EventListView(ListView):
             )
         else:
             return Event.objects.filter(status='approved')
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Event
+
+
+
+def event_detail_view(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    return render(request, 'accounts/event_detail.html', {'event': event})
 
 
 class UserEventListView(ListView):

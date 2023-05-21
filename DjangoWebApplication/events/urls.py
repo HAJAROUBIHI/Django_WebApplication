@@ -18,4 +18,6 @@ urlpatterns = [
     path('organizer/events/<int:pk>/update/', EventUpdateView.as_view(), name='event_update'),
     path('organizer/events/<int:pk>/delete/', EventDeleteView.as_view(), name='event_delete'),
     path('user_events/', UserEventListView.as_view(), name='user-events'),
+    path('event/<int:event_id>/', views.event_detail_view, name='event_detail'),
+    
 ]
