@@ -26,5 +26,9 @@ urlpatterns = [
     path('orders/', EventListView.as_view(), name='event_list'),
     path('orders/user', views.user_orders, name='user_orders'),
     path('dashboard/user/', views.dashboard_user, name='dashboard_user'),
+    path('contact/', views.contact, name='contact'),
+    path('about/', views.about, name='about'),
+    path('remove-ticket/<int:order_id>/', views.remove_ticket, name='remove_ticket'),
+
 ]
 

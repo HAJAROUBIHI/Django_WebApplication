@@ -24,46 +24,59 @@
     .form-control {
       margin-bottom: 15px;
     }
-    .navbar {
+        /* Use a gradient background for the navbar */
+        .navbar-custom {
+      background: linear-gradient(to right, #00d2ff, #3a47d5);
+    }
+    /* Use white color for the nav links */
+    .nav-link {
+      color: #ffffff !important;
+    }
+    /* Use a lighter shade of blue for the hover effect */
+    .nav-link:hover {
+      color: #00d2ff !important;
+    }
+    /* Use flexbox to align the logo and the links horizontally */
+    .navbar-nav {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background-color: #343a40; /* Change the background color to black */
     }
-    .navbar ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
+    /* Use media queries to make the navbar responsive */
+    @media (max-width: 768px) {
+      /* Hide the nav links on smaller screens */
+      .nav-item {
+        display: none;
+      }
+      /* Show a hamburger icon on smaller screens */
+      .navbar-toggler {
+        display: block;
+      }
     }
-    .navbar li {
-      display: inline-block; /* Change the display to inline-block */
-    }
-    .navbar li a {
-      display: block; /* Change the display to block */
-      color: white; /* Change the text color to white */
-      text-decoration: none; /* Remove the underline */
-      padding: 15px 20px; /* Add some padding */
-    }
-    .navbar li a:hover {
-      background-color: #007bff; /* Change the background color on hover */
-    }
- 
 
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <a class="navbar-brand" href="#">
-      <img src="{% static 'DjangoWebApplication/img/ticketss.png' %}" alt="Ticket logo" width="55" height="24" class="d-inline-block align-text-top">
-      Sell Tickets
-    </a>
-    
-     <!-- Add a list of links -->
-     <ul>
-       <li><a class="btn btn-outline-light" href="{% url 'organizer_profile' %}">Home</a></li>
-       <li><a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a></li>
-     </ul>
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="#">
+        <img src="{% static 'DjangoWebApplication/img/ticketss.png' %}" alt="Ticket logo" width="55" height="24" class="d-inline-block align-text-top">
+        Sell Tickets
+      </a>
+      <!-- Add a button to toggle the nav links on smaller screens -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+          <a class="nav-item nav-link active" href="{% url 'organizer_profile' %}">Home</a>
+          <a class="nav-item nav-link" href="{% url 'about' %}">About Us</a>
+          <a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>
+          <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+    </div>
   </nav>
+
   <div class="container">
     <div class="row">
       <div class="col-md-6 offset-md-3">

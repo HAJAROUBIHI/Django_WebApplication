@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.1/css/bootstrap.min.css">   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        .contact-page {
+            background-color: #f1f1f1;
+            min-height: 100vh;
+            padding: 49px 0;
+        }
+        .contact-form {
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        .contact-form h2 {
+            margin-top: 0;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .contact-form button {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-top: 50px;
+            text-align: center;
+            text-shadow: 2px 2px #999;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            padding: 20px;
+        }
+    /* Use a gradient background for the navbar */
+    .navbar-custom {
+      background: linear-gradient(to right, #00d2ff, #3a47d5);
+    }
+    /* Use white color for the nav links */
+    .nav-link {
+      color: #ffffff !important;
+    }
+    /* Use a lighter shade of blue for the hover effect */
+    .nav-link:hover {
+      color: #00d2ff !important;
+    }
+    /* Use flexbox to align the logo and the links horizontally */
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+    }
+    /* Use media queries to make the navbar responsive */
+    @media (max-width: 768px) {
+      /* Hide the nav links on smaller screens */
+      .nav-item {
+        display: none;
+      }
+      /* Show a hamburger icon on smaller screens */
+      .navbar-toggler {
+        display: block;
+      }
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+          <a class="navbar-brand text-white" href="#">
+            <img src="{% static 'DjangoWebApplication/img/ticketss.png' %}" alt="Ticket logo" width="55" height="24" class="d-inline-block align-text-top">
+            Sell Tickets
+          </a>
+          <!-- Add a button to toggle the nav links on smaller screens -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link active" href="{% url 'organizer_profile' %}">Home</a>
+                <a class="nav-item nav-link" href="{% url 'about' %}">About Us</a>
+                <a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    
+    <div class="contact-page" style="text-align: center;">
+        <div class="container">
+            <h1 class="text-center">Contact Us</h1>
+            <br>
+            <div class="contact-form">
+                <h2><strong >Let's Get In Touch</strong></h2>
+
+                <form action="{% url 'contact' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Your Name">
+                    <input type="email" name="email" placeholder="Your Email">
+                    <textarea name="message" placeholder="Your Message"></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

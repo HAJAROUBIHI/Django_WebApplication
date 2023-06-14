@@ -20,6 +20,11 @@ from django.utils import timezone
 from tickets.models import Ticket
 
 
+from django.contrib import messages
+
+from django.core.cache import cache
+from django.contrib import messages
+
 def dashboard_user(request):
     if request.method == 'POST':
         event_id = request.POST.get('event_id')
@@ -39,8 +44,19 @@ def dashboard_user(request):
         return redirect('dashboard_user')
     
     events = Event.objects.filter(status='approved')
-    return render(request, 'accounts/dashboard_user.html', {'events': events})
+    new_event_approved = False
+    last_count = request.session.get('approved_event_count', 0)
+    current_count = events.count()
 
+    if current_count > last_count:
+        new_event_approved = True
+        request.session['approved_event_count'] = current_count
+    
+    return render(request, 'accounts/dashboard_user.html', {
+        'events': events,
+        'new_event_approved': new_event_approved,
+    })
+  
 
 def user_orders(request):
     orders = Order.objects.filter(user=request.user)
@@ -214,3 +230,43 @@ class AccountDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def test_func(self):
         return self.request.user.is_superuser
+
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from django.http import HttpResponse
+
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.core.mail import send_mail
+
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+
+        # Send email with form data
+        send_mail(
+            'Contact Form Submission',
+            f'Name: {name}\nEmail: {email}\nMessage: {message}',
+            email,
+            ['youremail@example.com'],
+            fail_silently=False,
+        )
+        
+        return render(request, 'accounts/contact_success.html')
+    else:
+        return render(request, 'accounts/contact.html')
+
+def about(request):
+    return render(request, 'accounts/about.html')
+
+from django.shortcuts import get_object_or_404
+def remove_ticket(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    event = order.event
+    order.delete()
+    # Redirect to the user's orders page
+    return redirect('user_orders')
