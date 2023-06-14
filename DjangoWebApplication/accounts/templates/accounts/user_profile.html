@@ -22,14 +22,12 @@
       <a class="navbar-brand" href="#">Tickets</a>
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item active">
-          <a class="nav-link" href="{% url 'dashboard_user' %}">Events <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="{% url 'dashboard_user' %}">Events</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">link</a>
+          <a class="nav-link" href="{% url 'user_orders' %}">UserTickets</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
+        
       </ul>
       
       <div class="d-flex">
@@ -85,7 +83,7 @@
                                               {{ account.bio }}
                                           </p>
                                       </div>
-                                      <a href="javascript:void(0);" class="font-normal text-pink-500">
+                                      <a href="{% url 'profile_update' %}" class="font-normal text-pink-500">
                                           Show..
                                       </a>
                                   </div>

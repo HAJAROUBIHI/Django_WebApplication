@@ -270,3 +270,21 @@ def remove_ticket(request, order_id):
     order.delete()
     # Redirect to the user's orders page
     return redirect('user_orders')
+
+from django.db.models import Q
+class EventListView(ListView):
+    model = Event
+    template_name = 'accounts/dashboard_user.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'events'
+    ordering = ['date_time']
+    paginate_by = 5
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Event.objects.filter(
+                Q(location__icontains=query) & 
+                Q(status='approved')
+            )
+        else:
+            return Event.objects.filter(status='approved')

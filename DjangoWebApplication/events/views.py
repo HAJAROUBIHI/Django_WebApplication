@@ -165,7 +165,7 @@ from .models import Event
 
 class EventListView(ListView):
     model = Event
-    template_name = 'events/home.html'  # <app>/<model>_<viewtype>.html
+    template_name = 'accounts/dashboard_user.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'events'
     ordering = ['date_time']
     paginate_by = 5
@@ -179,7 +179,6 @@ class EventListView(ListView):
             )
         else:
             return Event.objects.filter(status='approved')
-
 
 from django.shortcuts import render, get_object_or_404
 from .models import Event
