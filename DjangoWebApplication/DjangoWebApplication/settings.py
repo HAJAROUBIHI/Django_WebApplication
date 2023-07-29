@@ -150,3 +150,6 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
     }
 }
+
+STRIPE_SECRET_KEY = 'sk_test_51NLc6KJ8Xbzxc3YLDaauftyOz6tMAz0iMGh3KNn2ttkFB5cvugKombiKbQCwaPIUxco2jRKjuRm1wqikMfPjsC3800KQDGRrDg'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51NLc6KJ8Xbzxc3YLOSUweeuAhmzEc2uhNakOhPLXaDu75UPkcHQyUrYJULJeJ0JcKePjCfNJhtt8YkLYsYFcC9qL00dfZ5w9yw'

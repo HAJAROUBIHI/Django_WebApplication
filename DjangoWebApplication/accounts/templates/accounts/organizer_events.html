@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0">
+  
+    <title>Organizer Profile</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+  <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.1/css/bootstrap.min.css">
+  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <link rel="stylesheet" href=
+    "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity=
+    "sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'DjangoWebApplication/css/styles.css' %}" rel="stylesheet" />
+    <style>
+
+    .profile-image {
+      width: 155px;
+      height: 155px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+      .navbar-custom {
+      height: 80px;
+     }
+    
+    body {
+      background-color: #f5f5f5;
+    }
+    .masthead-subheading {
+      margin-top: -138px;
+    }
+
+     </style>
+     
+</head>
+<body  style="background-color:  rgb(163, 180, 167);">
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow navbar-custom">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <img src="{% static 'DjangoWebApplication\img\ticket.png'%}" width="40" height="40" class="d-inline-block align-top" alt="">
+      <!--a class="navbar-brand" href="#">{{ account.full_name }}</a-->
+      <a class="navbar-brand" href="#">Tickets</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link"  href="{% url 'organizer_profile' %}">Your Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'organizer_events' %}">Your Events</a>
+        </li>
+      </ul>
+      <div>   </div>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+          <a class="nav-item nav-link" href="{% url 'about' %}">About Us</a>
+          <a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>
+        </div>
+       <div class="d-flex">
+        <a class="btn btn-outline-dark" href="{% url 'logout' %}" role="button">Logout</a>
+      </div>
+      </div>
+    </div>
+  </nav>
+<!--***************************************************************************-->
+  <header class="masthead" style="background-color: rgb(63, 75, 66);">
+    <div class="container">
+        <div class="masthead-subheading">Welcome To Tickets Online!</div>
+        <div class="masthead-heading text-uppercase">Join the revolution of online event ticketing</div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="#services" style="background-color: rgb(163, 180, 167);">See and Create events</a>
+    </div>
+ </header>
+
+<!-- Organizer Events -->
+<div class="container mt-4 text-center" id="services">
+  <div class="row">
+      <!-- List of Events -->
+      {% if events %}
+          {% if events|length == 1 %}
+              <!-- Display create new event button as the first card in a column -->
+              <div class="col-md-4 mb-4">
+                  <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center">
+                      <!-- Create new event button with an icon and text -->
+                      <a href="/events/organizer/events/" class="btn btn-primary btn-lg">
+                          <!-- Use font awesome icon for plus sign -->
+                          <i class="fas fa-plus"></i> Create New Event
+                      </a>
+                      <!-- Add text to encourage organizer to create events -->
+                      <p class="text-center mt-3">Show off your best work, Create exciting events, share your tickets, and get feedback</p>
+                  </div>
+              </div>
+              <!-- Display the only event as a card in a column -->
+              <div class="col-md-4 mb-4">
+                  <div class="card h-100 shadow-sm">
+                      <!-- Display the event image as the card header -->
+                      <img src="{{ events.0.image.url }}" class="card-img-top" alt="{{ events.0.name }}">
+                      <div class="card-body">
+                          <!-- Display the event name as the card title -->
+                          <h5 class="card-title">{{ events.0.title }}</h5>
+                          <!-- Display the event date and time as the card subtitle -->
+                          <p class="card-subtitle text-muted">{{ events.0.date_time|date:"F j, Y, P" }}</p>
+                          <!-- Display the event description as the card text -->
+                          <p class="card-text">{{ events.0.description }}</p>
+                          <!-- Display the event link as the card button -->
+                          </div>
+                      <div class="card-footer">
+                          <div class="d-flex align-items-center">
+                              <!-- Display the organizer avatar as a small circle image -->
+                              <img src="{{ account.profile_pic.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ events.0.organizer.username }}">
+                              <!-- Display the organizer name as a small text -->
+                              <small class="text-muted">{{ events.0.organizer.username }}</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- Display empty grid -->
+              <div class="col-md-4 mb-4">
+                  <div class="card h-100 shadow-sm">
+                      <!-- Empty card with a placeholder image and text -->
+                      <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
+                      <div class="card-body">
+                          <h5 class="card-title">No Event</h5>
+                          <p class="card-subtitle text-muted">No Date No Time</p>
+                          <p class="card-text">No Description</p>
+                          <a href="#" class="btn btn-outline-primary disabled">View Event</a>
+                      </div>
+                      <div class="card-footer">
+                          <div class="d-flex align-items-center">
+                              <!-- Empty avatar with a placeholder image -->
+                              <img src="https://via.placeholder.com/32?text=No+Avatar" class= "rounded-circle mr-2" width= "32" height= "32" alt= "No Avatar">
+                              <!-- Empty name with a placeholder text -->
+                              <small class= "text-muted">No Organizer</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          {% else %}
+              <!-- Display create new event button as the first card in a column -->
+              <div class="col-md-4 mb-4">
+                  <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center">
+                      <!-- Create new event button with an icon and text -->
+                      <p><strong style="font-size: 24px;">Create New Event</strong></p>
+                      <br>
+                      <br>
+                      <a href="/events/organizer/events/" class= "btn btn-primary btn-lg">
+                          <!-- Use font awesome icon for plus sign -->
+                          <i class= "fas fa-plus"></i> Create New Event
+                      </a>
+                      <br>
+                      <!-- Add text to encourage organizer to create events -->
+                      <p class= "text-center mt-3">Show off your best work, Create exciting events, share your tickets, and get feedback</p>
+                  </div>
+              </div>
+
+              {% for event in events %}
+                  <!-- Display each event as a card in a column -->
+                  <div class= "col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                      <!-- Display the event image as the card header -->
+                      <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                      <div class="card-body">
+                          <!-- Display the event name as the card title -->
+                          <h5 class="card-title">{{ event.title }}</h5>
+                          <!-- Display the event date and time as the card subtitle -->
+                          <p class="card-subtitle text-muted">{{ event.date_time|date:"F j, Y, P" }}</p>
+                          <!-- Display the event description as the card text -->
+                          <p class="card-text">{{ event.description }}</p>
+                          <!-- Display the event link as the card button -->
+                          
+                      </div>
+                      <div class="card-footer">
+                          <div class="d-flex align-items-center">
+                              <!-- Display the organizer avatar as a small circle image -->
+                              <img src="{{ account.profile_pic.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ event.organizer.username }}">
+                              <!-- Display the organizer name as a small text -->
+                              <small class="text-muted">{{ event.organizer.username }}</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+      {% endif %}
+  {% else %}
+      <!-- Display empty grids -->
+      {% for i in "123" %}
+          {% if i == "1" %}
+              <!-- Display create new event button as the first card in a column -->
+              <div class="col-md-4 mb-4">
+                  <div class="card h-100 shadow-sm d-flex align-items-center justify-content-center">
+                    <br><br><br><br><br><br><br>
+                      <!-- Create new event button with an icon and text -->
+                      <a href="/events/organizer/events/" class= "btn btn-primary btn-lg">
+                          <!-- Use font awesome icon for plus sign -->
+                          <i class= "fas fa-plus"></i> Create New Event
+                      </a>
+                      
+                      <!-- Add text to encourage organizer to create events -->
+                      <b class= "text-center mt-16" style="font-size: large;">Show off your best work, Create exciting events, share your tickets, and get feedback</b>
+                    <br><br><br><br><br><br><br>
+                    </div>
+                  
+              </div>
+          {% else %}
+              <!-- Display empty cards with placeholder images and texts -->
+              <div class= "col-md-4 mb-4">
+                  <div class= "card h-100 shadow-sm">
+                      <!-- Empty card with a placeholder image and text -->
+                      <img src= "https://via.placeholder.com/300x200?text=No+Image" class= "card-img-top" alt= "No Image">
+                      <div class= "card-body">
+                          <h5 class= "card-title">No Event</h5>
+                          <p class= "card-subtitle text-muted">No Date No Time</p>
+                          <p class= "card-text">No Description</p>
+                          <a href= "#" class= "btn btn-outline-primary disabled">View Event</a>
+                      </div>
+                      <div class= "card-footer">
+                          <div class= "d-flex align-items-center">
+                              <!-- Empty avatar with a placeholder image -->
+                              <img src= "https://via.placeholder.com/32?text=No+Avatar" class= "rounded-circle mr-2" width= "32" height= "32" alt= "No Avatar">
+                              <!-- Empty name with a placeholder text -->
+                              <small class= "text-muted">No Organizer</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          {% endif %}
+      {% endfor %}
+  {% endif %}
+</div>
+</div>
+    <br><hr><br>
+<!--***************************************************************************-->
+<!-- Add a link to the animate.css library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity=
+"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous">
+    </script>
+      
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity=
+"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous">
+    </script>
+      
+    <script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity=
+"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous">
+    </script>
+  
+  
+</body>
+  
+</html>

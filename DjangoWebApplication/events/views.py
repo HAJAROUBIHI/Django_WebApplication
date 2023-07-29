@@ -163,7 +163,7 @@ class EventDeleteView(UserPassesTestMixin, DeleteView):
 from django.views.generic import ListView
 from .models import Event
 
-class EventListView(ListView):
+"""class EventListView(ListView):
     model = Event
     template_name = 'accounts/dashboard_user.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'events'
@@ -178,7 +178,7 @@ class EventListView(ListView):
                 Q(status='approved')
             )
         else:
-            return Event.objects.filter(status='approved')
+            return Event.objects.filter(status='approved')"""
 
 from django.shortcuts import render, get_object_or_404
 from .models import Event

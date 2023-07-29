@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import EventDashboardView
-from .views import  EventCreateView, EventUpdateView, EventDeleteView, UserEventListView, EventListView
+from .views import  EventCreateView, EventUpdateView, EventDeleteView, UserEventListView #, EventListView
 from .views import OrganizerEventListView
 
 

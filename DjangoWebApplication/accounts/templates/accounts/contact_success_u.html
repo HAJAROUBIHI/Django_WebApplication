@@ -7,12 +7,10 @@
     <meta name="viewport" content=
         "width=device-width, initial-scale=1.0">
   
-    <title>Organizer Profile</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
-  <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.1/css/bootstrap.min.css">
-  
+    <title>
+        Payment success
+    </title>
+    <!-- bootstrap linked-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     
@@ -40,51 +38,23 @@
     body {
       background-color: #f5f5f5;
     }
-      h1 {
+body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+        }
+        h1 {
             color: #333;
             font-size: 36px;
-            margin-top: 0px;
+            margin-top: 50px;
             text-align: center;
             text-shadow: 2px 2px #999;
         }
-  
-
-        .about-page {
-            background-color: #f1f1f1;
-            min-height: 50vh;
-            padding: 50px 0;
-        }
-        .about-content {
-            width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        .container {
+            background-color: white;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            padding: 20px;
         }
-        .about-content h2 {
-            margin-top: 0;
-        }
-        .team-member {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .team-member img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-    /* Add a footer */
-    .footer {
-      background-color: #343a40;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-  
      </style>
      
 </head>
@@ -100,60 +70,44 @@
       <!--a class="navbar-brand" href="#">{{ account.full_name }}</a-->
       <a class="navbar-brand" href="#">Tickets</a>
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link"  href="{% url 'organizer_profile' %}">Your Profile</a>
+        <li class="nav-item active">
+          <!--a class="nav-link" >Tickets <span class="sr-only">(current)</span></a-->
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'organizer_events' %}">Your Events</a>
+          <a class="nav-link"  href="{% url 'user_profile' %}">Your Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user_orders' %}">UserTickets</a>
+        </li>
+	<li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard_user' %}">Events </a>
         </li>
       </ul>
       <div>   </div>
+      
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link" href="{% url 'about' %}">About Us</a>
-          <a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>
+          <a class="nav-item nav-link" href="{% url 'about_u' %}">About Us</a>
+          <a class="nav-item nav-link" href="{% url 'contact_u' %}">Contact</a>
         </div>
-       <div class="d-flex">
-        <a class="btn btn-outline-dark" href="{% url 'logout' %}" role="button">Logout</a>
       </div>
+      <div class="d-flex">
+        <a class="btn btn-outline-dark" href="{% url 'logout' %}" role="button">Logout</a>
       </div>
     </div>
   </nav>
 <!--***************************************************************************-->
-    <div class="about-page">
-        <div class="container">
-            <h1 class="text-center" >About Us</h1>
-            <br>
-            <br>
-            <div class="about-content">
-                <h2  style="font-size: 20px;"><strong>Our Mission</strong></h2>
-                
-                <p>We are a company that specializes in selling tickets for events. Our mission is to provide a seamless and enjoyable experience for both event organizers and attendees.</p>
+<br><br><br><br><br>
+<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Thanks for contacting us!</h1>
                 <br>
-                <hr>
                 <br>
-                <h2 style="font-weight: bold; font-size: 18px;">Our Team:</h2>
                 <br>
-                <div class="team-member">
-                    <img src="{% static 'DjangoWebApplication/img/monpic2.jpg' %}" alt="Hajar OUBIHI">
-                    <div>
-                        <strong>OUBIHI Hajar</strong><br>CEO
-                    </div>
-                </div>
-                <div class="team-member">
-                    <img src="{% static 'DjangoWebApplication/img/avatar.png' %}" alt="Jane Smith">
-                    <div>
-                        <strong>Hafsa</strong><br>Marketing Director
-                    </div>
-                </div>
-              
             </div>
         </div>
     </div>
-<footer class="footer"> 
-<!-- Your footer code here --> 
-<p>© My Project | All rights reserved.</p> 
-</footer> 
 <!--***************************************************************************-->
 <!-- Add a link to the animate.css library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>

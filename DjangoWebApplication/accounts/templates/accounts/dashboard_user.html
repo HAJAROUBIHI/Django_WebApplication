@@ -9,8 +9,7 @@
         "width=device-width, initial-scale=1.0">
   
     <title>
-        How to design Responsive card-deck 
-        with fixed width in Bootstrap ?
+        dashboard hjr
     </title>
   
     <!-- bootstrap linked-->
@@ -35,9 +34,13 @@
     <link href="{% static 'DjangoWebApplication/css/styles.css' %}" rel="stylesheet" />
     <style>
       .navbar-custom {
-      height: 80px;
-     }
-     </style>
+                height: 80px;
+              }
+
+      .masthead-subheading {
+                margin-top: -130px;
+              }
+    </style>
 </head>
 <body  style="background-color:  rgb(163, 180, 167);">
 
@@ -60,69 +63,143 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'user_orders' %}">UserTickets</a>
         </li>
+	      <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard_user' %}">Events </a>
+        </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0"  action="{% url 'event_list' %}" method="GET">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search by location" aria-label="Search">
+      <form class="form-inline my-2 my-lg-0" action="{% url 'dashboard_user' %}" method="GET">
+        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search by location" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
+      
       <div>   </div>
       <div class="d-flex">
         <a class="btn btn-outline-dark" href="{% url 'logout' %}" role="button">Logout</a>
       </div>
     </div>
   </nav>
-          <!-- Masthead-->
-          <header class="masthead" style="background-color: rgb(63, 75, 66);">
-            <div class="container">
-                <div class="masthead-subheading">Welcome To Tickets Online!</div>
-                <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
-                <a class="btn btn-primary btn-xl text-uppercase" href="#services" style="background-color: rgb(163, 180, 167);">See last events</a>
-            </div>
-        </header>
+    <!-- Display notification if new event is approved -->
+    {% if new_event_approved %}
+    <div id="notification" class="alert alert-success" role="alert">
+      New event approved!
+    </div>
+    <script>
+      // Remove the notification after 3 seconds
+      setTimeout(function() {
+        var notification = document.getElementById('notification');
+        notification.style.display = 'none';
+      }, 3000);
+    </script>
+    {% endif %}
+  <!-- Masthead-->
+  <header class="masthead" style="background-color: rgb(63, 75, 66);">
+    <div class="container">
+        <div class="masthead-subheading">Welcome To Tickets Online!</div><br>
+        <div class="masthead-heading text-uppercase" style="font-size: 61px;">Get your event tickets online with ease and convenience</div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="#services" style="background-color: rgb(163, 180, 167);">See last events</a>
+    </div>
+</header>
 <!-- Organizer Events -->
 <div class="container mt-4 text-center" id="services">
+<!-- Afficher les résultats de recherche -->
+{% if search_query %}
+    <h3>Résultats de recherche pour "{{ search_query }}"</h3>
+    {% if search_results %}
+
+        <div class="row">
+        {% for event in search_results %}
+           <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.name }}">
+                    {% else %}
+                       
+                        <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        
+                        <p class="card-subtitle text-muted">{{ event.location }}</p>
+                        
+                        <p class="card-subtitle text-muted">{{ event.date_time|date:"F d, Y" }} {{ event.date_time|time:"h:i A" }}</p>
+                        
+                        <p class="card-text">{{ event.description }}</p>
+                        
+                        <p class="card-text">Price: ${{ event.ticket_price }}</p>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="d-flex align-items-center">
+                            
+                            {% if event.organizer.avatar %}
+                                <img src="{{ event.organizer.profile_pic.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ event.organizer.name }}">
+                            {% else %}
+                                
+                                <img src="https://via.placeholder.com/32?text=No+Avatar" class="rounded-circle mr-2" width="32" height="32" alt="No Avatar">
+                            {% endif %}
+                            
+                            <small class="text-muted">{{ event.organizer.name }}</small>
+                        </div>
+                        <div class="text-right">
+                            <form method="post" action="{% url 'payment' event.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="event_id" value="{{ event.id }}">
+                                <button type="submit" class="btn btn-success">Buy Ticket</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucun résultat trouvé.</p>
+    {% endif %}
+{% endif %}
 
 <!-- List of Events -->
+{% if not search_query or not search_results %}
 <div class="row">
 {% if events %}
 {% for event in events %}
-  <!-- Display each event as a card in a column -->
   <div class="col-md-4 mb-4">
     <div class="card h-100 shadow-sm">
-      <!-- Display the event image as the card header -->
+
       {% if event.image %}
-      <!-- Display the event image as the card header -->
+
       <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.name }}">
     {% else %}
-      <!-- Placeholder image when no image is available -->
+
       <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
     {% endif %}
 
 
 
       
-      <!-- Display the event details as the card body -->
+    
       <div class="card-body">
-        <!-- Display the event name as the card title -->
+
         <h5 class="card-title">{{ event.title }}</h5>
-        <!-- Display the event location -->
+
         <p class="card-subtitle text-muted">{{ event.location }}</p>
-        <!-- Display the event date and time -->
+
         <p class="card-subtitle text-muted">{{ event.date_time|date:"F d, Y" }} {{ event.date_time|time:"h:i A" }}</p>
-        <!-- Display the event description as the card text -->
+
         <p class="card-text">{{ event.description }}</p>
-        <!-- Display the event ticket price -->
+
         <p class="card-text">Price: ${{ event.ticket_price }}</p>
       </div>
-      <!-- Display the organizer name and avatar as the card footer -->
+
       <div class="card-footer">
         <div class="d-flex align-items-center">
-          <!-- Display the organizer avatar as a small circle image -->
+
           {% if event.organizer.avatar %}
-          <img src="{{ event.organizer.avatar.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ event.organizer.name }}">
-          <!-- Display the organizer name as a small text -->
+          <img src="{{ event.organizer.profile_pic.url }}" class="rounded-circle mr-2" width="32" height="32" alt="{{ event.organizer.name }}">
+
           {% else %}
-          <!-- Placeholder image when no image is available -->
+
           <img src="https://via.placeholder.com/32?text=No+Avatar" class="rounded-circle mr-2" width="32" height="32" alt="No Avatar">
         {% endif %}
           <small class="text-muted">{{ event.organizer.name }}</small>
@@ -139,16 +216,16 @@
   </div>
 {% endfor %}
 {% else %}
-<!-- Display empty grids -->
+
 {% for i in "1234567" %}
   {% if i == "1" %}
-    <!-- Display create new event button as the first card in a column -->
+
     
   {% else %}
-    <!-- Display empty cards with placeholder images and texts -->
+
     <div class="col-md-4 mb-4">
       <div class="card h-100 shadow-sm">
-        <!-- Empty card with a placeholder image and text -->
+
         <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
         <div class="card-body">
           <h5 class="card-title">No Event</h5>
@@ -158,9 +235,9 @@
         </div>
         <div class="card-footer">
           <div class="d-flex align-items-center">
-            <!-- Empty avatar with a placeholder image -->
+
             <img src="https://via.placeholder.com/32?text=No+Avatar" class="rounded-circle mr-2" width="32" height="32" alt="No Avatar">
-            <!-- Empty name with a placeholder text -->
+
             <small class="text-muted">No Organizer</small>
           </div>
           <div class="text-right">
@@ -175,13 +252,10 @@
 {% endfor %}
 {% endif %}
 </div>
+{% endif %}
 </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity=
-"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity= "sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       
     <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

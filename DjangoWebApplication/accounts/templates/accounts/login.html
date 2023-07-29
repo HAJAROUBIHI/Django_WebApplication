@@ -3,19 +3,28 @@
 <head>
   <title>Login</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    .container {
+            width: 800px;
+            margin: 22 auto;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+  }
+    .containerr {
+      text-align: center;
+  }
+  </style>
 </head>
 <body>
+  <br><br><br>
   <div class="container">
     <h1 class="text-center my-5">Login</h1>
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <form method="POST">
           {% csrf_token %}
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-danger">{{ message }}</div>
-            {% endfor %}
-          {% endif %}
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" required>
@@ -24,10 +33,14 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" required>
           </div>
-          <button type="submit" class="btn btn-primary btn-block">Login</button>
+          <button type="submit" class="btn btn-primary btn-block">Login</button><br><br><br>
         </form>
       </div>
     </div>
+  </div>
+  <div class="containerr">
+    <br>
+    <a href="{% url 'register' %}">   You Still Dont Have an Account? </a>
   </div>
 </body>
 </html>

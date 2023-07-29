@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 {% load static %}
-<html>
+<html lang="en">
+  
 <head>
-    <title>contact success</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.1/css/bootstrap.min.css">
-    <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0">
+  
+    <title>Organizer Profile</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+  <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.5.1/css/bootstrap.min.css">
+  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
-body {
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <link rel="stylesheet" href=
+    "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity=
+    "sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'DjangoWebApplication/css/styles.css' %}" rel="stylesheet" />
+    <style>
+      .navbar-custom {
+      height: 80px;
+     }
+      body {
             font-family: Arial;
-            background-color: #f4f4f4;
+            background-color: #f4f4f4 !important;
         }
         h1 {
             color: #333;
@@ -27,59 +53,50 @@ body {
             box-shadow: 0 2px 4px rgba(0,0,0,.1);
             padding: 20px;
         }
-         /* Use a gradient background for the navbar */
-    .navbar-custom {
-      background: linear-gradient(to right, #00d2ff, #3a47d5);
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 20px;
+      text-align: center;
     }
-    /* Use white color for the nav links */
-    .nav-link {
-      color: #ffffff !important;
-    }
-    /* Use a lighter shade of blue for the hover effect */
-    .nav-link:hover {
-      color: #00d2ff !important;
-    }
-    /* Use flexbox to align the logo and the links horizontally */
-    .navbar-nav {
-      display: flex;
-      align-items: center;
-    }
-    /* Use media queries to make the navbar responsive */
-    @media (max-width: 768px) {
-      /* Hide the nav links on smaller screens */
-      .nav-item {
-        display: none;
-      }
-      /* Show a hamburger icon on smaller screens */
-      .navbar-toggler {
-        display: block;
-      }
-    }   
-    </style>
-
+  
+     </style>
+     
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-custom">
-        <div class="container-fluid">
-          <a class="navbar-brand text-white" href="#">
-            <img src="{% static 'DjangoWebApplication/img/ticketss.png' %}" alt="Ticket logo" width="55" height="24" class="d-inline-block align-text-top">
-            Sell Tickets
-          </a>
-          <!-- Add a button to toggle the nav links on smaller screens -->
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ml-auto">
-              <a class="nav-item nav-link active" href="{% url 'organizer_profile' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'about' %}">About Us</a>
-              <a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>
-              <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-            </div>
-          </div>
+<body >
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow navbar-custom">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <img src="{% static 'DjangoWebApplication\img\ticket.png'%}" width="40" height="40" class="d-inline-block align-top" alt="">
+      <!--a class="navbar-brand" href="#">{{ account.full_name }}</a-->
+      <a class="navbar-brand" href="#">Tickets</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link"  href="{% url 'organizer_profile' %}">Your Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'organizer_events' %}">Your Events</a>
+        </li>
+      </ul>
+      <div>   </div>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+          <a class="nav-item nav-link" href="{% url 'about' %}">About Us</a>
+          <a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>
         </div>
-      </nav>
-      <div class="container">
+       <div class="d-flex">
+        <a class="btn btn-outline-dark" href="{% url 'logout' %}" role="button">Logout</a>
+      </div>
+      </div>
+    </div>
+  </nav>
+<!--***************************************************************************-->
+<br><br><br><br><br>
+<div class="container">
         <div class="row">
             <div class="col-md-12">
                 <h1>Thanks for contacting us!</h1>
@@ -89,5 +106,37 @@ body {
             </div>
         </div>
     </div>
+    <br><br><br><br><br><br>
+<footer class="footer"> 
+<!-- Your footer code here --> 
+<p>© My Project | All rights reserved.</p> 
+</footer> 
+
+<!--***************************************************************************-->
+<!-- Add a link to the animate.css library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity=
+"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous">
+    </script>
+      
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity=
+"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous">
+    </script>
+      
+    <script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity=
+"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous">
+    </script>
+  
+  
 </body>
+  
 </html>
